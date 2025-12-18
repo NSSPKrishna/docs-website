@@ -1,0 +1,393 @@
+---
+headingText: Metrics collected
+componentType: default
+---
+
+## Docker container metrics
+
+The OpenTelemetry Collector's Docker Stats receiver collects resource usage metrics from Docker containers. Below are the key metrics available:
+
+<CollapserGroup>
+  <Collapser
+    id="cpu-metrics"
+    title="CPU metrics"
+  >
+    <table>
+      <thead>
+        <tr>
+          <th style={{ width: "350px" }}>
+            Metric
+          </th>
+          <th>
+            Description
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            `container.cpu.usage.total`
+          </td>
+          <td>
+            Total CPU time consumed by the container in nanoseconds
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.cpu.usage.kernelmode`
+          </td>
+          <td>
+            CPU time consumed by the container in kernel mode in nanoseconds
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.cpu.usage.usermode`
+          </td>
+          <td>
+            CPU time consumed by the container in user mode in nanoseconds
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.cpu.usage.system`
+          </td>
+          <td>
+            System CPU usage in nanoseconds
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.cpu.usage.percpu`
+          </td>
+          <td>
+            Per-CPU usage in nanoseconds
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.cpu.throttling_data.periods`
+          </td>
+          <td>
+            Number of periods with throttling active
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.cpu.throttling_data.throttled_periods`
+          </td>
+          <td>
+            Number of periods when the container was throttled
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.cpu.throttling_data.throttled_time`
+          </td>
+          <td>
+            Total time that the container was throttled in nanoseconds
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.cpu.percent`
+          </td>
+          <td>
+            Percentage of host CPU used by the container
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </Collapser>
+
+  <Collapser
+    id="memory-metrics"
+    title="Memory metrics"
+  >
+    <table>
+      <thead>
+        <tr>
+          <th style={{ width: "350px" }}>
+            Metric
+          </th>
+          <th>
+            Description
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            `container.memory.usage.limit`
+          </td>
+          <td>
+            Memory limit set for the container in bytes
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.memory.usage.total`
+          </td>
+          <td>
+            Total memory usage by the container in bytes
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.memory.usage.max`
+          </td>
+          <td>
+            Maximum memory usage recorded for the container in bytes
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.memory.percent`
+          </td>
+          <td>
+            Percentage of memory limit used by the container
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.memory.active_anon`
+          </td>
+          <td>
+            Amount of anonymous memory on active LRU list
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.memory.active_file`
+          </td>
+          <td>
+            Amount of file-backed memory on active LRU list
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.memory.cache`
+          </td>
+          <td>
+            Page cache memory
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.memory.inactive_anon`
+          </td>
+          <td>
+            Amount of anonymous memory on inactive LRU list
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.memory.inactive_file`
+          </td>
+          <td>
+            Amount of file-backed memory on inactive LRU list
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.memory.rss`
+          </td>
+          <td>
+            Size of resident set size memory
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.memory.rss_huge`
+          </td>
+          <td>
+            Size of resident set size memory backed by huge pages
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </Collapser>
+
+  <Collapser
+    id="network-metrics"
+    title="Network metrics"
+  >
+    <table>
+      <thead>
+        <tr>
+          <th style={{ width: "350px" }}>
+            Metric
+          </th>
+          <th>
+            Description
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            `container.network.io.usage.rx_bytes`
+          </td>
+          <td>
+            Bytes received by the container via the network
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.network.io.usage.tx_bytes`
+          </td>
+          <td>
+            Bytes transmitted by the container via the network
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.network.io.usage.rx_dropped`
+          </td>
+          <td>
+            Incoming network packets dropped
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.network.io.usage.tx_dropped`
+          </td>
+          <td>
+            Outgoing network packets dropped
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.network.io.usage.rx_errors`
+          </td>
+          <td>
+            Received network errors
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.network.io.usage.tx_errors`
+          </td>
+          <td>
+            Transmitted network errors
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.network.io.usage.rx_packets`
+          </td>
+          <td>
+            Network packets received
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.network.io.usage.tx_packets`
+          </td>
+          <td>
+            Network packets transmitted
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </Collapser>
+
+  <Collapser
+    id="block-io-metrics"
+    title="Block I/O metrics"
+  >
+    <table>
+      <thead>
+        <tr>
+          <th style={{ width: "350px" }}>
+            Metric
+          </th>
+          <th>
+            Description
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            `container.blockio.io_service_bytes_recursive`
+          </td>
+          <td>
+            Number of bytes transferred to and from block devices
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.blockio.io_serviced_recursive`
+          </td>
+          <td>
+            Number of I/O operations performed on block devices
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </Collapser>
+
+  <Collapser
+    id="pids-metrics"
+    title="PIDs metrics"
+  >
+    <table>
+      <thead>
+        <tr>
+          <th style={{ width: "350px" }}>
+            Metric
+          </th>
+          <th>
+            Description
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            `container.pids.count`
+          </td>
+          <td>
+            Number of process IDs (PIDs) running in the container
+          </td>
+        </tr>
+        <tr>
+          <td>
+            `container.pids.limit`
+          </td>
+          <td>
+            Maximum number of PIDs allowed in the container
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </Collapser>
+</CollapserGroup>
+
+For more details, see the [Docker Stats Receiver documentation](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/dockerstatsreceiver).
+
+## What's next?
+
+<DocTiles numbered>
+  <DocTile
+    title="Create custom dashboards"
+    path="/docs/query-your-data/explore-query-data/dashboards/introduction-dashboards"
+  >
+    Learn how to create custom dashboards to visualize your Docker container metrics.
+  </DocTile>
+
+  <DocTile
+    title="Set up alerts"
+    path="/docs/alerts-applied-intelligence/new-relic-alerts/get-started/introduction-alerts"
+  >
+    Configure alerts to get notified about issues with your Docker containers.
+  </DocTile>
+
+  <DocTile
+    title="Learn about NRQL"
+    path="/docs/query-your-data/nrql-new-relic-query-language/get-started/introduction-nrql-new-relics-query-language"
+  >
+    Get started with NRQL to query your Docker metrics.
+  </DocTile>
+</DocTiles>

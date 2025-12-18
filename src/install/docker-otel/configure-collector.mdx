@@ -1,0 +1,31 @@
+---
+headingText: Configure the collector for Docker metrics
+componentType: default
+---
+
+Create or replace `/etc/otelcol-contrib/config.yaml` with the configuration below. This enables the Docker Stats receiver and sends metrics to New Relic over OTLP.
+
+```yaml
+receivers:
+  docker_stats:
+    endpoint: unix:///var/run/docker.sock
+    collection_interval: 10s
+
+exporters:
+  otlp:
+    endpoint: https://otlp.nr-data.net:4317
+    headers:
+      api-key: YOUR_LICENSE_KEY
+
+service:
+  pipelines:
+    metrics:
+      receivers: [docker_stats]
+      exporters: [otlp]
+```
+
+Replace `YOUR_LICENSE_KEY` with your New Relic license key.
+
+If your account is in the EU region, use `https://otlp.eu01.nr-data.net:4317` as the endpoint instead.
+
+Save the file and ensure the `otelcol-contrib` system user can read it.

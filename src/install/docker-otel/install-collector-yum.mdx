@@ -1,0 +1,18 @@
+---
+headingText: Download and install the collector
+componentType: default
+---
+
+Run these commands to download and install the OpenTelemetry Collector Contrib distribution on your CentOS, RHEL, or Amazon Linux system:
+
+```bash
+VERSION=0.140.0
+ARCH=amd64
+sudo yum update -y
+sudo yum -y install wget
+wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v${VERSION}/otelcol-contrib_${VERSION}_linux_${ARCH}.rpm
+sudo rpm -ivh otelcol-contrib_${VERSION}_linux_${ARCH}.rpm
+sudo systemctl enable --now otelcol-contrib
+```
+
+The package installs `otelcol-contrib` as a service and places configuration files under `/etc/otelcol-contrib/`. The default architecture is set to `amd64`. If you're using ARM64, change the `ARCH` variable to `arm64`.

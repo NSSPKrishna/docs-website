@@ -1,0 +1,66 @@
+---
+headingText: Configure Docker logs (optional)
+componentType: default
+---
+
+This step is optional. If you want to collect Docker container logs, replace `/etc/otelcol-contrib/config.yaml` with the configuration below. This uses the Docker observer extension and receiver creator to automatically discover running containers and collect their logs.
+
+```yaml
+extensions:
+  docker_observer:
+    endpoint: unix:///var/run/docker.sock
+    use_hostname_if_present: true
+    use_host_bindings: true
+
+receivers:
+  docker_stats:
+    endpoint: unix:///var/run/docker.sock
+    collection_interval: 10s
+
+  receiver_creator:
+    watch_observers: [docker_observer]
+    receivers:
+      filelog:
+        rule: type == "container"
+        config:
+          include:
+            - /var/lib/docker/containers/`ID`/*-json.log
+          include_file_name: false
+          include_file_path: true
+          operators:
+            - type: json_parser
+              timestamp:
+                parse_from: attributes.time
+                layout: '%Y-%m-%dT%H:%M:%S.%LZ'
+            - type: move
+              from: attributes.log
+              to: body
+            - type: remove
+              field: attributes.time
+          resource:
+            container.id: "`ID`"
+            container.name: "`name`"
+            container.image.name: "`image`"
+
+exporters:
+  otlp:
+    endpoint: https://otlp.nr-data.net:4317
+    headers:
+      api-key: YOUR_LICENSE_KEY
+
+service:
+  extensions: [docker_observer]
+  pipelines:
+    metrics:
+      receivers: [docker_stats]
+      exporters: [otlp]
+    logs:
+      receivers: [receiver_creator]
+      exporters: [otlp]
+```
+
+Replace `YOUR_LICENSE_KEY` with your New Relic license key.
+
+If your account is in the EU region, use `https://otlp.eu01.nr-data.net:4317` as the endpoint instead.
+
+Save the file and ensure the `otelcol-contrib` system user can read it.

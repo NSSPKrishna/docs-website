@@ -1,0 +1,14 @@
+---
+headingText: Check the compatibility and requirements
+componentType: default
+---
+
+Make sure your host meets the following requirements before you begin:
+
+- Docker Engine running (API version 1.22 or higher)
+- Access to Docker socket (`/var/run/docker.sock` on Linux)
+- Running Docker containers to monitor
+- Permissions to read from the Docker API
+- You can connect to the host with `sudo` privileges to install packages and restart services
+- The host can reach New Relic over outbound HTTPS on port 443 and the OTLP ingest endpoint you plan to use
+- You can install and run the OpenTelemetry Collector Contrib distribution on the host

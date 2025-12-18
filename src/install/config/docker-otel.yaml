@@ -1,0 +1,38 @@
+agentName: docker-otel
+agentType: integration
+title: 'Docker OpenTelemetry collector'
+metaDescription: 'Install the Docker OpenTelemetry collector'
+introFilePath: 'src/install/docker-otel/intro.mdx'
+appInfo:
+  - optionType: deployment
+    label: ''
+    placeholder: "Choose your installation method:"
+    options:
+      - value: "apt"
+        displayName: "Install using Apt (Debian, Ubuntu)"
+        recommendedGuided: true
+      - value: "yum"
+        displayName: "Install using Yum (Amazon Linux, CentOS, RHEL)"
+        logo: 'linux'
+        recommendedGuided: true
+
+steps:
+  - filePath: 'src/install/docker-otel/prerequisites.mdx'
+  - filePath: 'src/install/docker-otel/license.mdx'
+  - filePath: 'src/install/docker-otel/install-collector.mdx'
+    overrides:
+      - filePath: 'src/install/docker-otel/install-collector-apt.mdx'
+        selectedOptions:
+          - optionType: deployment
+            options:
+              - value: 'apt'
+      - filePath: 'src/install/docker-otel/install-collector-yum.mdx'
+        selectedOptions:
+          - optionType: deployment
+            options:
+              - value: 'yum'
+  - filePath: 'src/install/docker-otel/configure-collector.mdx'
+  - filePath: 'src/install/docker-otel/configure-logs.mdx'
+  - filePath: 'src/install/docker-otel/restart-collector.mdx'
+  - filePath: 'src/install/docker-otel/verify.mdx'
+whatsNextFilePath: 'src/install/docker-otel/whatsNext.mdx'

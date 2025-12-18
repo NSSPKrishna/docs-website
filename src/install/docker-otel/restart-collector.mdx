@@ -1,0 +1,18 @@
+---
+headingText: Restart the OpenTelemetry Collector
+componentType: default
+---
+
+Restart the OpenTelemetry Collector to apply your configuration changes:
+
+```bash
+sudo systemctl restart otelcol-contrib
+```
+
+Check the collector status to ensure it's running:
+
+```bash
+sudo systemctl status otelcol-contrib
+```
+
+If you encounter issues with the Docker Stats receiver or need additional configuration options, refer to the [Docker Stats Receiver documentation](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/dockerstatsreceiver) for detailed requirements and troubleshooting guidance.

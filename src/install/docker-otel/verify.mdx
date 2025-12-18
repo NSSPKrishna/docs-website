@@ -1,0 +1,22 @@
+---
+headingText: Test the connection
+componentType: default
+---
+
+Wait a few minutes for data to start flowing, then verify your Docker metrics are appearing in New Relic:
+
+1. Go to **[one.newrelic.com](https://one.newrelic.com) > All entities**.
+2. Look for entities with the type **CONTAINER** in the left sidebar.
+3. Click on a container to see its metrics and data.
+
+You can also query your data directly using NRQL. Go to **[one.newrelic.com](https://one.newrelic.com) > Query your data** and try this query:
+
+```sql
+FROM Metric SELECT * WHERE instrumentation.provider = 'opentelemetry' AND otel.library.name = 'github.com/open-telemetry/opentelemetry-collector-contrib/receiver/dockerstatsreceiver' LIMIT MAX
+```
+
+If you don't see data after a few minutes:
+- Verify the OpenTelemetry Collector is running: `sudo systemctl status otelcol-contrib`
+- Check the collector logs: `sudo journalctl -u otelcol-contrib -f`
+- Ensure your Docker containers are running and active
+- Verify the Docker socket path is correct in your configuration
