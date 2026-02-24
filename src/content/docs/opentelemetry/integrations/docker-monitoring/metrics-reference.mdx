@@ -169,10 +169,12 @@ Sum
 </tr>
 <tr>
 <td>
-`container.cpu.percent`
+`container.cpu.percent` <br/><strong>(Deprecated)</strong>
 </td>
 <td>
-Percent of CPU used by the container (deprecated, use container.cpu.utilization instead)
+Percent of CPU used by the container.
+
+**This metric is deprecated.** Use `container.cpu.utilization` instead. The deprecated metric is disabled by default in OpenTelemetry Collector v0.88.0+ and will be removed in a future version. See the [OpenTelemetry dockerstatsreceiver documentation](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/dockerstatsreceiver#deprecations) for migration details.
 </td>
 <td>
 Gauge
@@ -253,17 +255,6 @@ CPU shares allocated to the container
 </td>
 <td>
 Gauge
-</td>
-</tr>
-<tr>
-<td>
-`container.cpu.cores.used`
-</td>
-<td>
-Number of CPU cores used by the container
-</td>
-<td>
-Sum
 </td>
 </tr>
 <tr>
@@ -670,6 +661,13 @@ Gauge
 id="docker-attributes"
 title="Attributes"
 >
+
+The attributes attached to Docker metrics depend on the receiver configuration and collector processors. This section documents attributes you'll see when using the configurations from the [setup guide](/docs/opentelemetry/integrations/docker-monitoring/self-hosted).
+
+### Resource Attributes (from dockerstatsreceiver)
+
+These attributes are automatically attached to all metrics by the Docker Stats receiver:
+
 <table>
 <thead>
 <tr>
@@ -685,17 +683,6 @@ Values
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>
-`collector.name`
-</td>
-<td>
-Custom attribute for collector identification (if configured in your collector)
-</td>
-<td>
-String
-</td>
-</tr>
 <tr>
 <td>
 `container.hostname`
@@ -751,34 +738,40 @@ Container runtime
 `docker`
 </td>
 </tr>
+</tbody>
+</table>
+
+### Metric-Specific Attributes
+
+These attributes appear as dimensions on specific metric types:
+
+<table>
+<thead>
 <tr>
-<td>
-`deployment.environment`
-</td>
-<td>
-Deployment environment identifier (if configured in your collector)
-</td>
-<td>
-String
-</td>
+<th style={{ width: "350px" }}>
+Attribute
+</th>
+<th>
+Description
+</th>
+<th>
+Applies To
+</th>
+<th>
+Values
+</th>
 </tr>
-<tr>
-<td>
-`description`
-</td>
-<td>
-Description of the metric
-</td>
-<td>
-String
-</td>
-</tr>
+</thead>
+<tbody>
 <tr>
 <td>
 `device_major`
 </td>
 <td>
-Device major number (for block I/O metrics)
+Device major number
+</td>
+<td>
+Block I/O metrics
 </td>
 <td>
 Integer
@@ -789,12 +782,109 @@ Integer
 `device_minor`
 </td>
 <td>
-Device minor number (for block I/O metrics)
+Device minor number
+</td>
+<td>
+Block I/O metrics
 </td>
 <td>
 Integer
 </td>
 </tr>
+<tr>
+<td>
+`operation`
+</td>
+<td>
+Type of I/O operation
+</td>
+<td>
+Block I/O metrics
+</td>
+<td>
+`read`, `write`
+</td>
+</tr>
+<tr>
+<td>
+`interface`
+</td>
+<td>
+Network interface name
+</td>
+<td>
+Network metrics
+</td>
+<td>
+String (e.g., `eth0`)
+</td>
+</tr>
+</tbody>
+</table>
+
+### Host Attributes (OpenTelemetry Collector Contrib only)
+
+These attributes are added by the `resourcedetection` processor when using the OpenTelemetry Collector Contrib configuration:
+
+<table>
+<thead>
+<tr>
+<th style={{ width: "350px" }}>
+Attribute
+</th>
+<th>
+Description
+</th>
+<th>
+Values
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+`host.name`
+</td>
+<td>
+Hostname of the Docker host
+</td>
+<td>
+String
+</td>
+</tr>
+<tr>
+<td>
+`host.id`
+</td>
+<td>
+Unique host identifier
+</td>
+<td>
+String
+</td>
+</tr>
+</tbody>
+</table>
+
+### New Relic Platform Attributes
+
+New Relic automatically adds these attributes after data ingestion for entity correlation and platform features:
+
+<table>
+<thead>
+<tr>
+<th style={{ width: "350px" }}>
+Attribute
+</th>
+<th>
+Description
+</th>
+<th>
+Values
+</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td>
 `entity.guid`
@@ -830,28 +920,6 @@ New Relic entity type
 </tr>
 <tr>
 <td>
-`instrumentation.provider`
-</td>
-<td>
-Instrumentation provider identifier
-</td>
-<td>
-`opentelemetry`
-</td>
-</tr>
-<tr>
-<td>
-`interface`
-</td>
-<td>
-Network interface name (for network metrics)
-</td>
-<td>
-String
-</td>
-</tr>
-<tr>
-<td>
 `newrelic.source`
 </td>
 <td>
@@ -861,34 +929,34 @@ Source of the metric in New Relic
 `api.metrics.otlp`
 </td>
 </tr>
+</tbody>
+</table>
+
+### OpenTelemetry Instrumentation Metadata
+
+Standard OpenTelemetry instrumentation information automatically added by the collector:
+
+<table>
+<thead>
 <tr>
-<td>
-`nr.entity_type`
-</td>
-<td>
-New Relic entity type for entity correlation
-</td>
-<td>
-`CONTAINER`
-</td>
+<th style={{ width: "350px" }}>
+Attribute
+</th>
+<th>
+Description
+</th>
+<th>
+Values
+</th>
 </tr>
-<tr>
-<td>
-`operation`
-</td>
-<td>
-Type of block I/O operation
-</td>
-<td>
-`read`, `write`
-</td>
-</tr>
+</thead>
+<tbody>
 <tr>
 <td>
 `otel.library.name`
 </td>
 <td>
-OpenTelemetry library/receiver name
+OpenTelemetry receiver name
 </td>
 <td>
 `github.com/open-telemetry/opentelemetry-collector-contrib/receiver/dockerstatsreceiver`
@@ -907,13 +975,13 @@ String (e.g., `0.142.0`)
 </tr>
 <tr>
 <td>
-`service.name`
+`instrumentation.provider`
 </td>
 <td>
-Service name configured in the collector
+Instrumentation provider identifier
 </td>
 <td>
-String
+`opentelemetry`
 </td>
 </tr>
 <tr>
@@ -927,19 +995,9 @@ Telemetry SDK identifier
 `opentelemetry`
 </td>
 </tr>
-<tr>
-<td>
-`unit`
-</td>
-<td>
-Unit of measurement for the metric
-</td>
-<td>
-String (e.g., `{cpus}`, `By`, `1`)
-</td>
-</tr>
 </tbody>
 </table>
+
 </Collapser>
 
 </CollapserGroup>
